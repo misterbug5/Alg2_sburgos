@@ -1,11 +1,11 @@
 # Python program to demonstrate searching operation
 # in binary search tree without recursion
-from typing import Dict
+from typing import Dict # Typing porque me da un algo si no pongo tipos
 
 
 class newNode:
 
-	# Constructor to create a new node
+    # Constructor to create a new node
     def __init__(self, data):
         self.data = data
         self.left = None
@@ -15,27 +15,27 @@ class newNode:
 # key exist or not
 def iterativeSearch(root:newNode, key:int) -> Dict:
 	
-	# Traverse until root reaches
-	# to dead end
-    visited_nodes = []
-    base=0
-    pos=0
-    visited_nodes.append({'root':True, 'data':root.data, 'pos':pos})
+    # Traverse until root reaches
+    # to dead end
+    visited_nodes = []	# Esta lista registra los nodos visitados para trazar el recorrido
+    base=0		# Esto marca la posición más a la izquierda de los nodos visitados
+    pos=0		# Esto marca la posición relativa del nodo visitado con respecto al nodo root
+    visited_nodes.append({'root':True, 'data':root.data, 'pos':pos}) # añadir el nodo root a la lista de nodos visitados
     while root != None:
 		
-		# pass right subtree as new tree
+        # pass right subtree as new tree
         if key > root.data:
             root = root.right
-            pos += 1
-            visited_nodes.append({'root':False, 'dir':'right', 'data':root.data, 'pos':pos})
-            base = min(pos, base)
+            pos += 1			# Ajusta la posición
+            visited_nodes.append({'root':False, 'dir':'right', 'data':root.data, 'pos':pos}) # Añade el nodo visitado a la lista
+            base = min(pos, base)	# Ajusta base
 
-		# pass left subtree as new tree
+        # pass left subtree as new tree
         elif key < root.data:
             root = root.left
-            pos -= 1
-            visited_nodes.append({'root':False, 'dir':'left', 'data':root.data, 'pos':pos})
-            base = min(pos, base)
+            pos -= 1			# Ajusta la posición
+            visited_nodes.append({'root':False, 'dir':'left', 'data':root.data, 'pos':pos}) # Añade el nodo visitado a la lista
+            base = min(pos, base)	# Ajusta base
         else:
             return {'visited_nodes':visited_nodes, 'base':base} # if the key is found return 1
     return {}
@@ -58,20 +58,22 @@ def insert(Node:newNode, data:int) -> newNode:
 	# return the (unchanged) Node pointer
 	return Node
 
-def show_data(data:dict)->None:
+# Esta funcion imprime la información en stdout
+def show_data(data:Dict)->None:
+    # Estos son graficos
     node_line=" {data} "
     node_left="  /"
     node_right="\\  "
-    if len(data):
+    if len(data): # Chequea si se encontro el nodo especificado
         print('Encontrado en:')
-        for line in data['visited_nodes']:
-            output_tab="  "*(line['pos']-data['base'])
-            if not line['root']:
+        for line in data['visited_nodes']: # imprime en cada linea el nodo visitado
+            output_tab="  "*(line['pos']-data['base']) # calcula la tabulacion requerida usando base y pos
+            if not line['root']: # Chequea si el nodo visitado es el nodo root para no escribir '/' o '\' encima de este
                 if line['dir'] == 'left':
-                    print(output_tab+node_left)
+                    print(output_tab+node_left) # Imprime la coneccion entre nodos
                 else:
-                    print(output_tab+node_right)
-            print(output_tab+node_line.format(data=line['data']))
+                    print(output_tab+node_right) # Imprime la coneccion entre nodos
+            print(output_tab+node_line.format(data=line['data'])) # Imprime la informacion del nodo
     else:
         print('No Encontrado')
 
